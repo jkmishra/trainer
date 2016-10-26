@@ -1,4 +1,4 @@
-package com.tavant.trainer;
+package com.tavant.trainer.service;
 
 import java.util.List;
 

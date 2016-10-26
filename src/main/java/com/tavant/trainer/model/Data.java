@@ -1,4 +1,4 @@
-package com.tavant.trainer;
+package com.tavant.trainer.model;
 
 public class Data {
 	private String entity;

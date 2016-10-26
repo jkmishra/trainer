@@ -1,4 +1,4 @@
-package com.tavant.trainer;
+package com.tavant.trainer.service;
 
 public class ResponseData {
 	private int statusCode;

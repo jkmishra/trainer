@@ -1,6 +1,10 @@
-package com.tavant.trainer;
+package com.tavant.trainer.service;
 
 import java.util.List;
+
+import com.tavant.trainer.constants.AppConstants;
+import com.tavant.trainer.model.Data;
+import com.tavant.trainer.model.QueryData;
 
 public class ResponseBuilder {
 
@@ -22,5 +26,11 @@ public class ResponseBuilder {
 		resp.setResponse(respMessage);
 		return resp;
 	}
-
+	public static ResponseData queryResp(QueryData data, String validationMSG) {
+		ResponseData resp = new ResponseData();
+		// if (isDataValid) {
+		resp.setStatusCode(AppConstants.SUCCESS_200);
+		resp.setResponse(validationMSG);
+		return resp;
+	}
 }

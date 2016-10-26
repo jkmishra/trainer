@@ -17,7 +17,7 @@
  * http://www.manning.com/ingersoll
  */
 
-package com.tavant.trainer;
+package com.tavant.trainer.service;
 
 
 import junit.framework.Assert;

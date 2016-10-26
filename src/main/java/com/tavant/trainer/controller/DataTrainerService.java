@@ -1,4 +1,4 @@
-package com.tavant.trainer;
+package com.tavant.trainer.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +14,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.tavant.trainer.constants.AppConstants;
+import com.tavant.trainer.model.Data;
+import com.tavant.trainer.model.QueryData;
+import com.tavant.trainer.service.AnswerTypeService;
+import com.tavant.trainer.service.DataValidator;
+import com.tavant.trainer.service.NamedModelCreator;
+import com.tavant.trainer.service.ResponseBuilder;
+import com.tavant.trainer.service.ResponseData;
+import com.tavant.trainer.service.TrainResponseData;
+import com.tavant.trainer.utils.DataUtils;
+
 @Path("/data")
 public class DataTrainerService {
 
@@ -27,8 +38,8 @@ public class DataTrainerService {
 	@Path("/validate")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response validate(Data msg) {
-		ResponseData validatorResponse = ResponseBuilder.validatorResponse(msg, DataValidator.validate(msg));
+	public Response validate(Data data) {
+		ResponseData validatorResponse = ResponseBuilder.validatorResponse(data, DataValidator.validate(data));
 		return Response.status(200).entity(validatorResponse).header("Access-Control-Allow-Origin", "*").build();
 
 	}
@@ -37,8 +48,7 @@ public class DataTrainerService {
 	@Path("/train")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response train(Data data) throws IOException {
-		String result = "Track saved : " + data;
+	public Response train(Data data) throws IOException {		
 		List<String> respData = new ArrayList<>();
 		boolean isSuccess = false;
 		if (DataValidator.isValidEntity(data.getEntity()) && DataValidator.isTrainingDataValid(data)) {
@@ -72,14 +82,34 @@ public class DataTrainerService {
 	@Path("/save")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response save(Data track) throws IOException {
-		String result = "Track saved : " + track;
-
-		if (DataValidator.isValidEntity(track.getEntity()) && DataValidator.isTrainingDataValid(track)) {
-			NamedTest.testMultiName(track.getTrainingData());
+	public Response save(Data data) throws IOException {	
+		String saveModelResp =AppConstants.MODEL_DATA_FAILURE;
+		if (DataValidator.isValidEntity(data.getEntity()) && DataValidator.isTrainingDataValid(data)) {
+			saveModelResp = NamedModelCreator.createModelData(data);
 		}
-		return Response.status(201).entity(track).build();
+		ResponseData validatorResponse = ResponseBuilder.validatorResponse(data, saveModelResp);
+		return Response.status(201).entity(validatorResponse).build();
 
 	}
+	
+	@POST
+	@Path("/testData")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response testData(QueryData data) throws IOException {
+		String queryResp = NamedModelCreator.testModelDataResponse(data);
+		ResponseData response = ResponseBuilder.queryResp(data, queryResp);
+		return Response.status(200).entity(response).header("Access-Control-Allow-Origin", "*").build();
 
+	}
+	@POST
+	@Path("/answerType")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response answerType(QueryData data) throws IOException {
+		String queryResp = AnswerTypeService.getAnswerType(data);
+		ResponseData response = ResponseBuilder.queryResp(data, queryResp);
+		return Response.status(200).entity(response).header("Access-Control-Allow-Origin", "*").build();
+
+	}
 }

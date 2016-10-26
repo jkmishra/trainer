@@ -1,4 +1,4 @@
-package com.tavant.trainer;
+package com.tavant.trainer.utils;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -8,9 +8,11 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tavant.trainer.constants.AppConstants;
+import com.tavant.trainer.model.Data;
+
 public class DataUtils {
-	private static String FILE_PATH_PREFIX = "D:/data/";
-	private static String FILE_NAME = ".txt";
+	
 
 	public static List<String> dataFileReader(String entityName) {
 		List<String> lines = new ArrayList<>();
@@ -24,9 +26,14 @@ public class DataUtils {
 	}
 
 	public static String fileNameBuilder(String entityName) {
-		return FILE_PATH_PREFIX + entityName + FILE_NAME;
+		return AppConstants.FILE_PATH_PREFIX + entityName + AppConstants.FILE_NAME;
 	}
-
+	public static String modelFileDestNameBuilder(String entityName) {
+		return AppConstants.FILE_PATH_PREFIX ;
+	}
+	public static String modelFileNameBuilder(String entityName) {
+		return AppConstants.MODEL_PATH_PREFIX+entityName+AppConstants.MODEL_FILE_SUFFIX;
+	}
 	public static String appendDataInFile(Data data) {
 		String resp = "";
 		try { 
