@@ -26,13 +26,13 @@ public class DataUtils {
 	}
 
 	public static String fileNameBuilder(String entityName) {
-		return AppConstants.FILE_PATH_PREFIX + entityName + AppConstants.FILE_NAME;
+		return Config.getProperty("FILE_PATH_PREFIX") + entityName + Config.getProperty("FILE_NAME");
 	}
 	public static String modelFileDestNameBuilder(String entityName) {
-		return AppConstants.FILE_PATH_PREFIX ;
+		return Config.getProperty("FILE_PATH_PREFIX") ;
 	}
 	public static String modelFileNameBuilder(String entityName) {
-		return AppConstants.MODEL_PATH_PREFIX+entityName+AppConstants.MODEL_FILE_SUFFIX;
+		return Config.getProperty("MODEL_PATH_PREFIX")+entityName+Config.getProperty("MODEL_FILE_SUFFIX");
 	}
 	public static String appendDataInFile(Data data) {
 		String resp = "";

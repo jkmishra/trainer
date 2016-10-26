@@ -7,11 +7,6 @@ public class AppConstants {
 	public static final String SUCCESS="SUCCESS";
 	public static final int  SUCCESS_200=200;
 	public static final int  FAIL_200=1000;
-	public static final String LANGUAGE_CODE="en";
-	public static final String FILE_PATH_PREFIX = "D:/data/";
-	public static final String MODEL_PATH_PREFIX = "/en-ner-";
-	public static final String FILE_NAME = ".txt";
-	public static final String MODEL_FILE_SUFFIX = ".bin";
 	public static final String  DATA_FILE_PATH_NOT_FOUND="File path not found";
 	public static final String  INVALID_DATA="Training data is invalid";
 	public static final String  DUPLICATE_DATA="Training data is Duplicate";
@@ -20,6 +15,5 @@ public class AppConstants {
 	public static final String  INVALID_ENTITY="Training ENTITY is invalid";
 	public static final String  MODEL_DATA_SUCCESS="OOw!! your model data Update";
 	public static final String  MODEL_DATA_FAILURE="Sorry!! your model data Update Filure";
-	public static final String  ModelDirectory="E:/mlb/nlp/book-master2/book-master/opennlp-models";
-	public static final String  WordnetDirectory="E:/mlb/nlp/book-master2/book-master/WordNet-3.0";
+
 }

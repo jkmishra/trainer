@@ -25,6 +25,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.servlet.ServletContext;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+
 import com.tavant.trainer.constants.AppConstants;
 
 import opennlp.maxent.GIS;
@@ -43,8 +47,8 @@ import opennlp.tools.postag.POSTaggerME;
  * @author shishir.srivastava
  *
  */
-public class AnswerTypeClassifier {
 
+public class AnswerTypeClassifier {
 	private MaxentModel model;
 	private double[] probs;
 	private AnswerTypeContextGenerator atcg;
@@ -66,13 +70,11 @@ public class AnswerTypeClassifier {
 		}
 
 	}
-	
-	public  Parser getParser() {
-		 return parser;
+
+	public Parser getParser() {
+		return parser;
 
 	}
-	
-	
 
 	private AnswerTypeClassifier() {
 
@@ -82,9 +84,9 @@ public class AnswerTypeClassifier {
 	}
 
 	public void init() {
-		//AnswerTypeContextGenerator atcg = null;
-		if (AppConstants.ModelDirectory != null) {
-			File modelsDir = new File(AppConstants.ModelDirectory);
+		// AnswerTypeContextGenerator atcg = null;
+		if (Config.getProperty("ModelDirectory") != null) {			
+			File modelsDir = new File(Config.getProperty("ModelDirectory"));
 			try {
 				InputStream chunkerStream = new FileInputStream(new File(modelsDir, "en-chunker.bin"));
 				ChunkerModel chunkerModel = new ChunkerModel(chunkerStream);
@@ -95,10 +97,10 @@ public class AnswerTypeClassifier {
 				tagger = new POSTaggerME(posModel); // <co id="qqpp.tagger"/>
 				model = new DoccatModel(new FileInputStream( // <co
 																// id="qqpp.theModel"/>
-						new File(AppConstants.ModelDirectory, "en-answer.bin"))).getChunkerModel();
+						new File(Config.getProperty("ModelDirectory"), "en-answer.bin"))).getChunkerModel();
 				probs = new double[model.getNumOutcomes()];
-				atcg = new AnswerTypeContextGenerator(new File(AppConstants.WordnetDirectory, "dict"));// <co
-																										// id="qqpp.context"/>
+				atcg = new AnswerTypeContextGenerator(new File(Config.getProperty("WordnetDirectory"), "dict"));// <co
+				// id="qqpp.context"/>
 
 				AnswerTypeClassifier atc = new AnswerTypeClassifier(model, probs, atcg);// <co
 																						// id="qqpp.atc"/>
@@ -128,6 +130,7 @@ public class AnswerTypeClassifier {
 		String[] context = atcg.getContext(question);// <co id="atc.context"/>
 		return model.eval(context, probs);// <co id="atc.evaluate"/>
 	}
+
 	/**
 	 * Train the answer model
 	 * <p>

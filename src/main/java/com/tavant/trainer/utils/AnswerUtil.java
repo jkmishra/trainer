@@ -38,7 +38,7 @@ public class AnswerUtil {
 		Parser parser = atc.getParser();
 		Parse parse = ParserTool.parseLine(qstr, parser, 1)[0];
 		String type = atc.computeAnswerType(parse);
-		return type;
+		return answerTypeMap.get(type);
 	}
 
 	public static void main(String[] args) {

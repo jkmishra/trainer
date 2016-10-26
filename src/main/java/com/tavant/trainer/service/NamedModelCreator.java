@@ -10,6 +10,8 @@ import java.util.Collections;
 import com.tavant.trainer.constants.AppConstants;
 import com.tavant.trainer.model.Data;
 import com.tavant.trainer.model.QueryData;
+import com.tavant.trainer.model.QueryResponseData;
+import com.tavant.trainer.utils.Config;
 import com.tavant.trainer.utils.DataUtils;
 
 import opennlp.tools.namefind.NameFinderME;
@@ -32,7 +34,7 @@ public class NamedModelCreator {
 			destFile.createNewFile();
 		}
 		ObjectStream<NameSample> nss = new NameSampleDataStream(new PlainTextByLineStream(new FileReader(destFile)));
-		TokenNameFinderModel model = NameFinderME.train(AppConstants.LANGUAGE_CODE, data.getEntity(), nss,
+		TokenNameFinderModel model = NameFinderME.train(Config.getProperty("LANGUAGE_CODE"), data.getEntity(), nss,
 				(AdaptiveFeatureGenerator) null, Collections.<String, Object> emptyMap(), 70, 1);
 		File outFile = new File(DataUtils.modelFileDestNameBuilder(data.getEntity()),
 				DataUtils.modelFileNameBuilder(data.getEntity()));
@@ -42,13 +44,8 @@ public class NamedModelCreator {
 	}
 
 	public static String createModelData(Data data) throws IOException {
-		TokenNameFinderModel saveModelResp =null;
-		if (!DataValidator.isTrainingDataDuplicate(data)) {
-			saveModelResp = saveModel(data);
-		} else {
-			return AppConstants.DUPLICATE_DATA;
-		}		
-		
+		TokenNameFinderModel saveModelResp =null;		
+			saveModelResp = saveModel(data);		
 		if (saveModelResp != null) {
 			return AppConstants.MODEL_DATA_SUCCESS;
 		} else {
@@ -56,8 +53,8 @@ public class NamedModelCreator {
 		}
 	}
 
-	private static String testSearchResp(QueryData data) throws IOException {
-		String resp = "";
+	private static QueryResponseData testSearchResp(QueryData data) throws IOException {
+		QueryResponseData queryResp=new QueryResponseData();
 		NameFinderME nameFinder = new NameFinderME(
 				new TokenNameFinderModel(
 						new FileInputStream(new File(DataUtils.modelFileDestNameBuilder(data.getEntity()),
@@ -72,13 +69,14 @@ public class NamedModelCreator {
 				cb.append(tokens[ti]).append(" ");
 			}
 			System.out.println(cb.substring(0, cb.length() - 1));
-			System.out.println("\ttype: " + names[si].getType());
-			resp = names[si].getType();
+			System.out.println("\ttype: " + names[si].getType());			
+			queryResp.setType(names[si].getType());
+			queryResp.setDataStr(cb.substring(0, cb.length() - 1));
 		}
-		return resp;
+		return queryResp;
 	}
 
-	public static String testModelDataResponse(QueryData data) throws IOException {
+	public static QueryResponseData testModelDataResponse(QueryData data) throws IOException {
 		return testSearchResp(data);
 
 	}

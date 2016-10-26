@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import com.tavant.trainer.constants.AppConstants;
 import com.tavant.trainer.model.Data;
 import com.tavant.trainer.model.QueryData;
+import com.tavant.trainer.model.QueryResponseData;
 import com.tavant.trainer.service.AnswerTypeService;
 import com.tavant.trainer.service.DataValidator;
 import com.tavant.trainer.service.NamedModelCreator;
@@ -26,8 +27,8 @@ import com.tavant.trainer.service.TrainResponseData;
 import com.tavant.trainer.utils.DataUtils;
 
 @Path("/data")
-public class DataTrainerService {
-
+public class DataTrainerService {	
+	
 	@GET
 	@Path("/test")
 	public Response getRoot() {
@@ -97,9 +98,9 @@ public class DataTrainerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response testData(QueryData data) throws IOException {
-		String queryResp = NamedModelCreator.testModelDataResponse(data);
-		ResponseData response = ResponseBuilder.queryResp(data, queryResp);
-		return Response.status(200).entity(response).header("Access-Control-Allow-Origin", "*").build();
+		QueryResponseData queryResp = NamedModelCreator.testModelDataResponse(data);
+		queryResp = ResponseBuilder.queryResp(data, queryResp);
+		return Response.status(200).entity(queryResp).header("Access-Control-Allow-Origin", "*").build();
 
 	}
 	@POST
@@ -108,7 +109,7 @@ public class DataTrainerService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response answerType(QueryData data) throws IOException {
 		String queryResp = AnswerTypeService.getAnswerType(data);
-		ResponseData response = ResponseBuilder.queryResp(data, queryResp);
+		ResponseData response = ResponseBuilder.answerType(data, queryResp);
 		return Response.status(200).entity(response).header("Access-Control-Allow-Origin", "*").build();
 
 	}

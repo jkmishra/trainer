@@ -5,6 +5,7 @@ import java.util.List;
 import com.tavant.trainer.constants.AppConstants;
 import com.tavant.trainer.model.Data;
 import com.tavant.trainer.model.QueryData;
+import com.tavant.trainer.model.QueryResponseData;
 
 public class ResponseBuilder {
 
@@ -26,11 +27,17 @@ public class ResponseBuilder {
 		resp.setResponse(respMessage);
 		return resp;
 	}
-	public static ResponseData queryResp(QueryData data, String validationMSG) {
+
+	public static QueryResponseData queryResp(QueryData data, QueryResponseData queryResp) {		
+		// if (isDataValid) {
+		queryResp.setStatusCode(AppConstants.SUCCESS_200); // resp.setResponse(validationMSG);
+		return queryResp;
+	}
+	public static ResponseData answerType(QueryData data, String respMsg) {
 		ResponseData resp = new ResponseData();
 		// if (isDataValid) {
-		resp.setStatusCode(AppConstants.SUCCESS_200);
-		resp.setResponse(validationMSG);
+		resp.setStatusCode(AppConstants.SUCCESS_200); 
+		resp.setResponse(respMsg);
 		return resp;
 	}
 }
