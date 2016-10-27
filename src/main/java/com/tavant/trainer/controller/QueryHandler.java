@@ -1,4 +1,4 @@
-package com.tavant.trainer.utils;
+package com.tavant.trainer.controller;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,6 +17,8 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
 import com.tavant.trainer.service.ResponseData;
+
+	
 
 @Path("/query")
 public class QueryHandler {
