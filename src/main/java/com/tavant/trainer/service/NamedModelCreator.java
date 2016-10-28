@@ -53,7 +53,7 @@ public class NamedModelCreator {
 		}
 	}
 
-	private static QueryResponseData testSearchResp(QueryData data) throws IOException {
+	public static QueryResponseData testSearchResp(QueryData data) throws IOException {
 		QueryResponseData queryResp=new QueryResponseData();
 		NameFinderME nameFinder = new NameFinderME(
 				new TokenNameFinderModel(
@@ -76,15 +76,36 @@ public class NamedModelCreator {
 		return queryResp;
 	}
 
-	public static QueryResponseData testModelDataResponse(QueryData data) throws IOException {
-		return testSearchResp(data);
-
+	/**
+	 * @param data
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getSingleWordAnswer(QueryData data) throws IOException {
+		QueryResponseData queryResp=new QueryResponseData();
+		NameFinderME nameFinder = new NameFinderME(
+				new TokenNameFinderModel(
+						new FileInputStream(new File(DataUtils.modelFileDestNameBuilder(data.getEntity()),
+								DataUtils.modelFileNameBuilder(data.getEntity())))),
+				(AdaptiveFeatureGenerator) null, NameFinderME.DEFAULT_BEAM_SIZE);		
+		Tokenizer tokenizer = SimpleTokenizer.INSTANCE; 
+		String[] tokens = tokenizer.tokenize(data.getQueryData());
+		Span[] names = nameFinder.find(tokens);
+		for (int si = 0; si < names.length; si++) {
+			StringBuilder cb = new StringBuilder();
+			for (int ti = names[si].getStart(); ti < names[si].getEnd(); ti++) {
+				cb.append(tokens[ti]).append(" ");
+			}
+			return cb.toString();
+		
+		}
+		return "Sorry !! noy been able to find anything relevent";
 	}
 
 	public static void main(String[] args) throws IOException {
 		QueryData data=new QueryData();
 		data.setEntity("person");
-		data.setQueryData("james Bond was reunited with her sons");
+		data.setQueryData("James Bond was reunited with her sons");
 		testSearchResp(data);
 	}
 }

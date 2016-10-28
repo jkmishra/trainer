@@ -24,7 +24,7 @@ public class ResponseBuilder {
 		} else {
 			resp.setStatusCode(AppConstants.FAIL_200);
 		}
-		resp.setResponse(respMessage);
+		resp.setTrainingList(respMessage);
 		return resp;
 	}
 

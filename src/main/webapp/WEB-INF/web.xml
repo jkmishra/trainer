@@ -20,14 +20,9 @@
 
 	<servlet-mapping>
 		<servlet-name>jersey-serlvet</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
-	<listener>
-		<listener-class>com.tavant.trainer.utils.Config</listener-class>
-	</listener>
-
 	<welcome-file-list>
-		<welcome-file>dashboard.html</welcome-file>
-	</welcome-file-list>
-
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
 </web-app>
