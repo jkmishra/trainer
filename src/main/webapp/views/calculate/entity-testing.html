@@ -1,7 +1,7 @@
-<div ng-controller="entityController">
+<div ng-controller="entityTestingController">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Entity Training</h1>
+            <h1 class="page-header">Test Simulation</h1>
         </div>
     </div>
     <div class="row">
@@ -11,9 +11,9 @@
                     <i class="fa fa-fw"></i> Working Window
                 </div>
                 <div class="form-group">
-                  <textarea class="form-control" rows="8" ng-model="trainingData"></textarea>
+                  <textarea class="form-control" rows="8" ng-model="queryData"></textarea>
                 </div>
-                    <div class="panel panel-info" ng-style="{margin: 0}">
+                   <!--  <div class="panel panel-info" ng-style="{margin: 0}">
                         <div class="panel-heading">
                             Hint/Instructions/Help
                         </div>
@@ -21,20 +21,20 @@
                             <p>{{instructions}}</p>
                         </div>
                     </div>
-                <!-- /.panel-body -->
+ -->                <!-- /.panel-body -->
             </div>
             <!-- /.panel -->
         </div>
         <div class="col-lg-1" ng-style="{'padding-left': '0px','padding-right': '0px', 'margin-top':'100px'}">
               <div class="form-group">
-                <button type="button" class="btn btn-danger" ng-click="validate()">Validate</button>
+                <button type="button" class="btn btn-danger" ng-click="testData()">Analyze</button>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <button type="button" class="btn btn-primary" ng-click="trainData()">&nbsp;&nbsp;Train&nbsp;&nbsp;&nbsp;</button>
               </div>
               <div class="form-group">
                 <button type="button" class="btn btn-success" ng-click="saveData()">&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-              </div>
+              </div> -->
               <!-- /.panel -->
         </div>
         <!-- /.col-lg-8 -->
@@ -55,7 +55,7 @@
         <!-- /.col-lg-4 -->
     </div>
     <!-- /.row -->
-    <div class="row">
+   <!--  <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -71,11 +71,11 @@
                           </tbody>
                         </table>
                 </div>
-                <!-- <div class="panel-footer">
+                <div class="panel-footer">
                     Panel Footer
-                </div> -->
+                </div>
             </div>
         </div>
       </div>
-</div>
+</div> -->
 </div>

@@ -1,42 +1,64 @@
-<div class="navbar-default sidebar topnav" role="navigation"> <div class="sidebar-nav navbar-collapse"> <ul class="nav in" id="side-menu"> <sidebar-search></sidebar-search> <!-- <li ui-sref-active="active">
-                <a ui-sref="dashboard.home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-            </li>
-            <li ui-sref-active="active">
-
-                <a ui-sref="dashboard.chart"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span></span></a>
-
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="dashboard.table"><i class="fa fa-table fa-fw"></i> Tables</a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="dashboard.form"><i class="fa fa-edit fa-fw"></i> Forms</a>
-            </li>
-            <li ng-class="{active: collapseVar==1}">{{dropDown}}
-                <a href="" ng-click="check(1)"><i class="fa fa-wrench fa-fw"></i> UI Elements<span
+<div class="navbar-default sidebar topnav" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav in" id="side-menu">
+            <sidebar-search></sidebar-search>
+                      <li ng-class="{active: collapseVar==2}">
+                <a href="" ng-click="check(2)"><i class="fa fa-sitemap fa-fw"></i> Entity Training<span
                         class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" collapse="collapseVar!=1">
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.panels-wells">Panels and Wells</a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=2">
+                     <li>
+                        <a ui-sref="dashboard.training({type:'person'})">Person</a>
                     </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.buttons">Buttons</a>
+                    <li>
+                        <a ui-sref="dashboard.training({type:'answer'})">Answer</a>
                     </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.notifications">Notifications</a>
+                    <li>
+                        <a ui-sref="dashboard.training({type:'money'})">Money</a>
+                    </li>s
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li ng-class="{active: collapseVar==3}">
+                <a href="" ng-click="check(3)"><i class="fa fa-sitemap fa-fw"></i> Test Simulation<span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=3">
+                      <li>
+                        <a ui-sref="dashboard.testing({type:'person'})">Person</a>
                     </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.typography">Typography</a>
+                    <li>
+                        <a ui-sref="dashboard.testing({type:'answer'})">Answer</a>
                     </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.icons"> Icons</a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.grid">Grid</a>
+                    <li>
+                        <a ui-sref="dashboard.testing({type:'money'})">Money</a>
                     </li>
                 </ul>
-
-            </li> --> <li ng-class="{active: collapseVar==2}"> <a href="" ng-click="check(2)"><i class="fa fa-sitemap fa-fw"></i> Entity Training<span class="fa arrow"></span></a> <ul class="nav nav-second-level" collapse="collapseVar!=2"> <li> <a ui-sref="dashboard.training({type:'person'})">Person</a> </li> <li> <a ui-sref="dashboard.training({type:'answer'})">Answer</a> </li> <li> <a ui-sref="dashboard.training({type:'money'})">Money</a> </li> </ul> <!-- /.nav-second-level --> </li> <li ng-class="{active: collapseVar==3}"> <a href="" ng-click="check(3)"><i class="fa fa-sitemap fa-fw"></i> Test Simulation<span class="fa arrow"></span></a> <ul class="nav nav-second-level" collapse="collapseVar!=3"> <li> <a href="">Person</a> </li> <li> <a href="">Answer</a> </li> <li> <a href="">Money</a> </li> </ul> <!-- /.nav-second-level --> </li> <!-- <li ng-class="{active:collapseVar==4}">
+                <!-- /.nav-second-level -->
+            </li>
+			<li ng-class="{active: collapseVar==4}">
+                <a href="" ng-click="check(4)"><i class="fa fa-sitemap fa-fw"></i> Document Section<span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=4">
+                    <li>
+                        <a href="">Upload Docs</a>
+                    </li>
+           </ul>
+                <!-- /.nav-second-level -->
+            </li>
+			
+			<li ng-class="{active: collapseVar==5}">
+                <a href="" ng-click="check(5)"><i class="fa fa-sitemap fa-fw"></i> Analysis<span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=5">
+                    <li>
+                        <a href="">Analyze Sentence</a>
+                    </li>
+           </ul>
+                <!-- /.nav-second-level -->
+            </li>
+			
+			
+			
+            <!-- <li ng-class="{active:collapseVar==4}">
                 <a href="" ng-click="check(4)"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=4">
@@ -47,4 +69,8 @@
                         <a ui-sref="login">Login Page</a>
                     </li>
                 </ul>
-            </li> --> </ul> </div> <!-- /.sidebar-collapse --> </div>
+            </li> -->
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>

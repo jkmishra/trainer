@@ -45,7 +45,10 @@ public class QueryHandler {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getanswer(@Context UriInfo uriInfo) throws IOException {
 		ResponseData queryResponse = new ResponseData();
-		String questionString = uriInfo.getRequestUri().getQuery();
+		
+		String questionString =uriInfo.getQueryParameters().get("search").get(0);
+		
+		//String questionString = uriInfo.getRequestUri().getQuery();
 		Iterator<SolrDocument> docs;
 		SolrDocument mostReleventResult = null;
 		try {

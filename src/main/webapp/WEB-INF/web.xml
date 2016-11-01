@@ -4,6 +4,10 @@
 	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>Web Application</display-name>
 
+	  <servlet>
+  		<servlet-name>HandleIncomingMessages</servlet-name>
+  		<servlet-class>com.skype.bot.HandleIncomingMessages</servlet-class>
+ 	 </servlet>
 	<servlet>
 		<servlet-name>jersey-serlvet</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -16,12 +20,19 @@
 			<param-value>true</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-	</servlet>
+	</servlet> 
+	
+	 <!-- <servlet-mapping>
+	  		<servlet-name>HandleIncomingMessages</servlet-name>
+	  		<url-pattern>/HandleIncomingMessages</url-pattern>
+	  </servlet-mapping> -->
 
-	<servlet-mapping>
+	 <servlet-mapping>
 		<servlet-name>jersey-serlvet</servlet-name>
 		<url-pattern>/api/*</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> 
+	
+	
 	<welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

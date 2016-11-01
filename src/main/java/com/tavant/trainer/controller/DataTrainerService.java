@@ -117,6 +117,7 @@ public class DataTrainerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response testData(QueryData data) throws IOException {
+		System.out.println(data);
 		QueryResponseData queryResp = NamedModelCreator.testSearchResp(data);
 		queryResp = ResponseBuilder.queryResp(data, queryResp);
 		return Response.status(200).entity(queryResp).header("Access-Control-Allow-Origin", "*").build();
