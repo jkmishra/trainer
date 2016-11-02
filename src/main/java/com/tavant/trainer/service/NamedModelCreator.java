@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.tavant.trainer.constants.AppConstants;
 import com.tavant.trainer.model.Data;
@@ -55,6 +57,7 @@ public class NamedModelCreator {
 
 	public static QueryResponseData testSearchResp(QueryData data) throws IOException {
 		QueryResponseData queryResp=new QueryResponseData();
+		List<QueryData> queryRespList=new ArrayList<QueryData>();
 		NameFinderME nameFinder = new NameFinderME(
 				new TokenNameFinderModel(
 						new FileInputStream(new File(DataUtils.modelFileDestNameBuilder(data.getEntity()),
@@ -64,15 +67,18 @@ public class NamedModelCreator {
 		String[] tokens = tokenizer.tokenize(data.getQueryData());
 		Span[] names = nameFinder.find(tokens);
 		for (int si = 0; si < names.length; si++) {
+			QueryData queryData=new QueryData();
 			StringBuilder cb = new StringBuilder();
 			for (int ti = names[si].getStart(); ti < names[si].getEnd(); ti++) {
 				cb.append(tokens[ti]).append(" ");
 			}
 			System.out.println(cb.substring(0, cb.length() - 1));
 			System.out.println("\ttype: " + names[si].getType());			
-			queryResp.setType(names[si].getType());
-			queryResp.setDataStr(cb.substring(0, cb.length() - 1));
+			queryData.setEntity(names[si].getType());
+			queryData.setQueryData(cb.substring(0, cb.length() - 1));
+			queryRespList.add(queryData);
 		}
+		queryResp.setDataList(queryRespList);
 		return queryResp;
 	}
 
