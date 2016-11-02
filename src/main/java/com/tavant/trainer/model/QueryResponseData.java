@@ -1,30 +1,25 @@
 package com.tavant.trainer.model;
 
+import java.util.List;
+
 public class QueryResponseData {
 	private int statusCode;
-	private String dataStr;
-	private String type;
+	private List<QueryData> dataList;
 	public int getStatusCode() {
 		return statusCode;
 	}
 	public void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
 	}
-	public String getDataStr() {
-		return dataStr;
+	public List<QueryData> getDataList() {
+		return dataList;
 	}
-	public void setDataStr(String dataStr) {
-		this.dataStr = dataStr;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
+	public void setDataList(List<QueryData> dataList) {
+		this.dataList = dataList;
 	}
 	@Override
 	public String toString() {
-		return "QueryResponseData [statusCode=" + statusCode + ", dataStr=" + dataStr + ", type=" + type + "]";
+		return "QueryResponseData [statusCode=" + statusCode + ", dataList=" + dataList + "]";
 	}
-	
+		
 }

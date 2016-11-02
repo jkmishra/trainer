@@ -10,11 +10,14 @@
                         <a ui-sref="dashboard.training({type:'person'})">Person</a>
                     </li>
                     <li>
-                        <a ui-sref="dashboard.training({type:'answer'})">Answer</a>
+                        <a ui-sref="dashboard.training({type:'humanResource'})">Human Resource</a>
                     </li>
                     <li>
                         <a ui-sref="dashboard.training({type:'money'})">Money</a>
-                    </li>s
+                    </li>
+                    <li>
+                        <a ui-sref="dashboard.training({type:'date'})">Date time</a>
+                    </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
@@ -26,7 +29,7 @@
                         <a ui-sref="dashboard.testing({type:'person'})">Person</a>
                     </li>
                     <li>
-                        <a ui-sref="dashboard.testing({type:'answer'})">Answer</a>
+                        <a ui-sref="dashboard.testing({type:'dateTime'})">Date time</a>
                     </li>
                     <li>
                         <a ui-sref="dashboard.testing({type:'money'})">Money</a>
@@ -50,7 +53,7 @@
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=5">
                     <li>
-                        <a href="">Analyze Sentence</a>
+                        <a ui-sref="dashboard.analysis({type:'person'})">Analyze Sentence</a>
                     </li>
            </ul>
                 <!-- /.nav-second-level -->

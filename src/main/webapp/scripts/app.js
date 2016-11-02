@@ -186,5 +186,24 @@ angular
       }
   })
   
+   .state('dashboard.analysis',{
+      templateUrl:'views/calculate/entity-analysis.html',
+      url:'/analysis/:type',
+      controller: 'entityAnalysisController',
+      resolve: {
+        loadMyFiles:function($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name:'sbAdminApp',
+            files:[
+            'scripts/services/analysisService.js',
+            'scripts/controllers/entityAnalysisController.js',
+            ]
+          })
+        }
+      }
+  })
+  
+  
+  
   
   }]);

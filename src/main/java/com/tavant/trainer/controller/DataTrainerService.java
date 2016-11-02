@@ -123,6 +123,20 @@ public class DataTrainerService {
 		return Response.status(200).entity(queryResp).header("Access-Control-Allow-Origin", "*").build();
 
 	}
+	
+	@POST
+	@Path("/analysis")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response analysis(QueryData data) throws IOException {
+		System.out.println(data);
+		QueryResponseData queryResp = NamedModelCreator.testSearchResp(data);
+		queryResp = ResponseBuilder.queryResp(data, queryResp);
+		return Response.status(200).entity(queryResp).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+	
+	
 	@POST
 	@Path("/answerType")
 	@Consumes(MediaType.APPLICATION_JSON)

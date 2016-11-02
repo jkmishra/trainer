@@ -36,7 +36,7 @@ angular.module('sbAdminApp')
       appService.trainData($stateParams.type, $scope.trainingData).then(
                        function(response) {
                           $scope.consoleOutput = response.data.trainingData;
-                          $scope.trainedList = response.data.trainingList;
+                          $scope.trainedList = response.data.trainingList; 
                           console.log('success', response);
                        },
                       function(errResponse){

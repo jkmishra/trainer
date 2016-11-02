@@ -12,9 +12,14 @@ angular.module('sbAdminApp')
 	  $scope.testData = function(){
         console.log('in controller testData : ' + $stateParams.type);
         testAppService.testData($stateParams.type, $scope.queryData).then(
-                         function(response) {
-                           $scope.consoleOutput = response.data.trainingData;
-                           console.log('success', response);
+                         function(response) {                       
+                           $scope.items = response.data.dataList
+                           .map(function (queryDataTest) {                             
+                               return queryDataTest.queryData+" :: "+queryDataTest.entity;
+                           })
+                           .join('\n');             
+                           
+                           console.log('success', response.data.dataList);
                          },
                         function(errResponse){
                           console.error('Error while fetching Currencies');
