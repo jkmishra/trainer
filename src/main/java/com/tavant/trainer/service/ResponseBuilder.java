@@ -40,4 +40,10 @@ public class ResponseBuilder {
 		resp.setResponse(respMsg);
 		return resp;
 	}
+	public static ResponseData analysisRsp(QueryData data, String queryResp) {		
+		ResponseData respData=new ResponseData();
+		respData.setStatusCode(AppConstants.SUCCESS_200); 
+		respData.setResponse(queryResp);
+		return respData;
+	}
 }

@@ -12,7 +12,6 @@ import com.tavant.trainer.constants.AppConstants;
 import com.tavant.trainer.model.Data;
 
 public class DataUtils {
-	
 
 	public static List<String> dataFileReader(String entityName) {
 		List<String> lines = new ArrayList<>();
@@ -28,19 +27,25 @@ public class DataUtils {
 	public static String fileNameBuilder(String entityName) {
 		return Config.getProperty("FILE_PATH_PREFIX") + entityName + Config.getProperty("FILE_NAME");
 	}
+
 	public static String modelFileDestNameBuilder(String entityName) {
-		return Config.getProperty("FILE_PATH_PREFIX") ;
+		return Config.getProperty("FILE_PATH_PREFIX");
 	}
+
 	public static String modelFileNameBuilder(String entityName) {
-		return Config.getProperty("MODEL_PATH_PREFIX")+entityName+Config.getProperty("MODEL_FILE_SUFFIX");
+		return Config.getProperty("MODEL_PATH_PREFIX") + entityName + Config.getProperty("MODEL_FILE_SUFFIX");
 	}
+
+	public static String modelDir() {
+		return Config.getProperty("ModelDirectory");
+	}
+
 	public static String appendDataInFile(Data data) {
 		String resp = "";
-		try { 
+		try {
 			Files.write(Paths.get(fileNameBuilder(data.getEntity())), data.getTrainingData().getBytes(),
 					StandardOpenOption.APPEND);
-			Files.write(Paths.get(fileNameBuilder(data.getEntity())), "\n".getBytes(),
-					StandardOpenOption.APPEND);
+			Files.write(Paths.get(fileNameBuilder(data.getEntity())), "\n".getBytes(), StandardOpenOption.APPEND);
 			resp = AppConstants.APPEND_DATA_SUCCESS;
 		} catch (IOException e) {
 			resp = AppConstants.APPEND_DATA_FAIL + " :" + e.getMessage();

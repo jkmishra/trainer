@@ -13,8 +13,8 @@ angular.module('sbAdminApp')
         console.log('in controller analysis controll js  : ' + $stateParams.type);
         analysisService.analysis($stateParams.type, $scope.trainingData).then(
                          function(response) {                             
-                           console.log('success', response);
-                           $scope.consoleOutput = response.data.type;
+                           console.log('success', response.data.response);
+                           $scope.consoleOutput = response.data.response;
                           
                          },
                         function(errResponse){

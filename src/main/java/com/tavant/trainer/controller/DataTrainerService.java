@@ -23,6 +23,7 @@ import com.tavant.trainer.model.QueryData;
 import com.tavant.trainer.model.QueryResponseData;
 import com.tavant.trainer.service.AnswerTypeService;
 import com.tavant.trainer.service.DataValidator;
+import com.tavant.trainer.service.NameFilterTest;
 import com.tavant.trainer.service.NamedModelCreator;
 import com.tavant.trainer.service.ResponseBuilder;
 import com.tavant.trainer.service.ResponseData;
@@ -130,9 +131,9 @@ public class DataTrainerService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response analysis(QueryData data) throws IOException {
 		System.out.println(data);
-		QueryResponseData queryResp = NamedModelCreator.testSearchResp(data);
-		queryResp = ResponseBuilder.queryResp(data, queryResp);
-		return Response.status(200).entity(queryResp).header("Access-Control-Allow-Origin", "*").build();
+		String queryResp = NameFilterTest.testNameFilter(data);
+		ResponseData resp = ResponseBuilder.analysisRsp(data, queryResp);
+		return Response.status(200).entity(resp).header("Access-Control-Allow-Origin", "*").build();
 
 	}
 	
