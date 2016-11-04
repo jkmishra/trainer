@@ -150,7 +150,7 @@ public class DataTrainerService {
 	}
 
 	@GET
-	@Path("/intentTest")
+	@Path("/intent")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response intent() throws IOException {
 		List<String> intentData = new IntentDataService().getIntentFileData();

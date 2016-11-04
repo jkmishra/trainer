@@ -6,7 +6,7 @@ angular.module('sbAdminApp').factory('intentAppService',
 		    // var requestData = {entity: entity, queryData:
 		    // queryData};
 		    return $http({
-			url : 'api/data/intentTest',
+			url : 'api/data/intent',
 			method : "GET",
 			// data: requestData,
 			headers : {
