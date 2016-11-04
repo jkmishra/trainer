@@ -3,7 +3,6 @@ package com.tavant.trainer.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -19,21 +18,22 @@ import javax.ws.rs.core.Response;
 import com.tavant.trainer.common.enums.EntityType;
 import com.tavant.trainer.constants.AppConstants;
 import com.tavant.trainer.model.Data;
+import com.tavant.trainer.model.IntentData;
 import com.tavant.trainer.model.QueryData;
 import com.tavant.trainer.model.QueryResponseData;
 import com.tavant.trainer.service.AnswerTypeService;
 import com.tavant.trainer.service.DataValidator;
+import com.tavant.trainer.service.IntentDataService;
 import com.tavant.trainer.service.NameFilterTest;
 import com.tavant.trainer.service.NamedModelCreator;
 import com.tavant.trainer.service.ResponseBuilder;
 import com.tavant.trainer.service.ResponseData;
 import com.tavant.trainer.service.TrainResponseData;
 import com.tavant.trainer.utils.DataUtils;
-import com.tavant.trainer.vo.TrainingResponse;
 
 @Path("/data")
-public class DataTrainerService {	
-	
+public class DataTrainerService {
+
 	@GET
 	@Path("/test")
 	public Response getRoot() {
@@ -54,24 +54,22 @@ public class DataTrainerService {
 	@Path("/instructions/{input}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getInstructions(@PathParam("input") String input) {	
+	public Response getInstructions(@PathParam("input") String input) {
 		System.out.println("***************dqwdqwdwq***input" + input);
 		return Response.status(200).entity(EntityType.getByValue(input).getInstructions()).build();
 	}
-	
-	
-	
+
 	@POST
 	@Path("/train")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response train(Data data) throws IOException {		
+	public Response train(Data data) throws IOException {
 		List<String> respData = new ArrayList<>();
 		boolean isSuccess = false;
 		if (DataValidator.isValidEntity(data.getEntity()) && DataValidator.isTrainingDataValid(data)) {
 			File file = new File(DataUtils.fileNameBuilder(data.getEntity()));
 			if (!file.exists()) {
-				file.getParentFile().mkdirs(); 
+				file.getParentFile().mkdirs();
 				file.createNewFile();
 			}
 			if (!DataValidator.isTrainingDataDuplicate(data)) {
@@ -85,15 +83,18 @@ public class DataTrainerService {
 			} else {
 				respData.add(AppConstants.DUPLICATE_DATA);
 
-			}			
+			}
 
 		} else {
 			respData.add(DataValidator.validate(data));
-		}	
-		
-		/*TrainingResponse trainingResponse = new TrainingResponse(data);
-		trainingResponse.setTrainingList(Arrays.asList(new String[]{"default rec1", "default rec2", trainingResponse.getTrainingData()}));
-		*/
+		}
+
+		/*
+		 * TrainingResponse trainingResponse = new TrainingResponse(data);
+		 * trainingResponse.setTrainingList(Arrays.asList(new String[]{
+		 * "default rec1", "default rec2",
+		 * trainingResponse.getTrainingData()}));
+		 */
 		TrainResponseData trainingResponse = ResponseBuilder.trainingResponse(data, respData, isSuccess);
 		return Response.status(200).entity(trainingResponse).header("Access-Control-Allow-Origin", "*").build();
 
@@ -103,8 +104,8 @@ public class DataTrainerService {
 	@Path("/save")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response save(Data data) throws IOException {	
-		String saveModelResp =AppConstants.MODEL_DATA_FAILURE;
+	public Response save(Data data) throws IOException {
+		String saveModelResp = AppConstants.MODEL_DATA_FAILURE;
 		if (DataValidator.isValidEntity(data.getEntity()) && DataValidator.isTrainingDataValid(data)) {
 			saveModelResp = NamedModelCreator.createModelData(data);
 		}
@@ -112,7 +113,7 @@ public class DataTrainerService {
 		return Response.status(201).entity(validatorResponse).build();
 
 	}
-	
+
 	@POST
 	@Path("/testData")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -124,7 +125,7 @@ public class DataTrainerService {
 		return Response.status(200).entity(queryResp).header("Access-Control-Allow-Origin", "*").build();
 
 	}
-	
+
 	@POST
 	@Path("/analysis")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -136,8 +137,7 @@ public class DataTrainerService {
 		return Response.status(200).entity(resp).header("Access-Control-Allow-Origin", "*").build();
 
 	}
-	
-	
+
 	@POST
 	@Path("/answerType")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -148,4 +148,16 @@ public class DataTrainerService {
 		return Response.status(200).entity(response).header("Access-Control-Allow-Origin", "*").build();
 
 	}
+
+	@GET
+	@Path("/intentTest")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response intent() throws IOException {
+		List<String> intentData = new IntentDataService().getIntentFileData();
+		System.out.println("ggggggg:" +intentData.toString());
+		IntentData response = ResponseBuilder.intentFileData(intentData);
+		return Response.status(200).entity(response).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+
 }

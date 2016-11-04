@@ -15,5 +15,6 @@ public class AppConstants {
 	public static final String  INVALID_ENTITY="Training ENTITY is invalid";
 	public static final String  MODEL_DATA_SUCCESS="OOw!! your model data Update";
 	public static final String  MODEL_DATA_FAILURE="Sorry!! your model data Update Filure";
+	public static final String INTENT_FILE_NAME="questions-train.txt";
 
 }

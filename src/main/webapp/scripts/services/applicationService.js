@@ -12,7 +12,7 @@ angular.module('sbAdminApp').factory('appService', ['$http', function($http){
             }
         })
       },
-  			validateData: function(entity, trainingData) {
+  validateData: function(entity, trainingData) {
           console.log('inside validateData:  '+ entity + '     ' + trainingData);
           var requestData = {entity: entity, trainingData: trainingData};
   				return $http({

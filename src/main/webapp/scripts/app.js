@@ -203,7 +203,22 @@ angular
       }
   })
   
-  
+  .state('dashboard.intent',{
+      templateUrl:'views/calculate/intent-data.html',
+      url:'/intent/:type',
+      controller: 'intentController',
+      resolve: {
+        loadMyFiles:function($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name:'sbAdminApp',
+            files:[
+            'scripts/services/intentService.js',
+            'scripts/controllers/intentController.js',
+            ]
+          })
+        }
+      }
+  })
   
   
   }]);

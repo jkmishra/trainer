@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.tavant.trainer.constants.AppConstants;
 import com.tavant.trainer.model.Data;
+import com.tavant.trainer.model.IntentData;
 import com.tavant.trainer.model.QueryData;
 import com.tavant.trainer.model.QueryResponseData;
 
@@ -45,5 +46,11 @@ public class ResponseBuilder {
 		respData.setStatusCode(AppConstants.SUCCESS_200); 
 		respData.setResponse(queryResp);
 		return respData;
+	}
+	public static IntentData intentFileData(List<String> respMsg) {
+		IntentData resp = new IntentData();	
+		resp.setStatusCode(AppConstants.SUCCESS_200); 
+		resp.setDataList(respMsg);
+		return resp;
 	}
 }
