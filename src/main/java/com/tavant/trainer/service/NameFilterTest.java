@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
@@ -42,85 +44,7 @@ import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
 
 public class NameFilterTest extends TamingTextTestJ4 {
-
-	private static final String input = "The quick brown fox jumped over William Taft the President. "
-			+ "There once was a man from New York City who had to catch the bus at 10:30 "
-			+ "in the morning of December 21, 1992 ";
-
-	/*
-	 * * private static String[] modelName = { "date", "location", "money",
-	 * "organization", "percentage", "person", "time" };
-	 * 
-	 * private static SentenceDetector detector; private static NameFinderME[]
-	 * finder;
-	 * 
-	 * @BeforeClass public static void setupModels() throws IOException {
-	 * 
-	 * File modelDir = getModelDir();
-	 * 
-	 * finder = new NameFinderME[modelName.length]; for (int i=0; i <
-	 * modelName.length; i++) { finder[i] = new NameFinderME(new
-	 * TokenNameFinderModel( new FileInputStream( new File(modelDir, "en-ner-" +
-	 * modelName[i] + ".bin") ))); }
-	 * 
-	 * File modelFile = new File(modelDir, "en-sent.bin"); InputStream
-	 * modelStream = new FileInputStream(modelFile); SentenceModel model = new
-	 * SentenceModel(modelStream); detector = new SentenceDetectorME(model); }
-	 * 
-	 * String[] tokenStrings = { "The", "quick", "brown", "fox", "jumped",
-	 * "over", "NE_person", "William", "NE_person", "Taft", "the", "President",
-	 * ".", "There", "once", "was", "a", "man", "from", "NE_location", "New",
-	 * "NE_location", "York", "NE_location", "City", "who", "had", "to",
-	 * "catch", "the", "bus", "at", "NE_time", "10", "NE_time", ":", "NE_time",
-	 * "30", "in", "the", "morning", "of", "NE_date", "December", "NE_date",
-	 * "21", "NE_date", ",", "NE_date", "1992" };
-	 * 
-	 * int[] positionIncrements = { 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1,
-	 * 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1,
-	 * 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0 };
-	 * 
-	 * @Test public void testNameFilter() throws IOException { Reader in = new
-	 * StringReader(input); Tokenizer tok = new SentenceTokenizer(in, detector);
-	 * NameFilter nf = new NameFilter(tok, modelName, finder);
-	 * 
-	 * CharTermAttribute cta; PositionIncrementAttribute pta; OffsetAttribute
-	 * oa;
-	 * 
-	 * int pass = 0;
-	 * 
-	 * while (pass < 2) { // test reuse. int pos = 0; int lastStart = 0; int
-	 * lastEnd = 0;
-	 * 
-	 * while (nf.incrementToken()) { cta = (CharTermAttribute)
-	 * nf.getAttribute(CharTermAttribute.class); pta =
-	 * (PositionIncrementAttribute)
-	 * nf.getAttribute(PositionIncrementAttribute.class); oa = (OffsetAttribute)
-	 * nf.getAttribute(OffsetAttribute.class);
-	 * 
-	 * System.err.println("'" + cta.toString() + "'");
-	 * System.err.println(pta.toString()); System.err.println(oa.toString());
-	 * System.err.println("--- pass: " + pass);
-	 * 
-	 * TestCase.assertEquals(tokenStrings[pos], cta.toString());
-	 * TestCase.assertEquals(positionIncrements[pos],
-	 * pta.getPositionIncrement());
-	 * 
-	 * if (pta.getPositionIncrement() == 0) { TestCase.assertEquals(lastStart,
-	 * oa.startOffset()); TestCase.assertEquals(lastEnd, oa.endOffset()); }
-	 * 
-	 * if (!cta.toString().startsWith("NE_")) {
-	 * TestCase.assertEquals(input.substring(oa.startOffset(), oa.endOffset()),
-	 * cta.toString()); }
-	 * 
-	 * lastStart = oa.startOffset(); lastEnd = oa.endOffset();
-	 * 
-	 * pos++; }
-	 * 
-	 * //if (pass == 1) nf.dumpState(); nf.end();
-	 * 
-	 * in.close(); in = new StringReader(input); tok.reset(in); pass++; } }
-	 */
-
+	
 	public static String testNameFilter(QueryData data) throws IOException {
 		File modelDir = new File(DataUtils.modelDir());
 		NameFinderME[] finder = new NameFinderME[AppConstants.MODEL_NAME.length];
@@ -128,7 +52,6 @@ public class NameFilterTest extends TamingTextTestJ4 {
 			finder[i] = new NameFinderME(new TokenNameFinderModel(
 					new FileInputStream(new File(modelDir, "en-ner-" + AppConstants.MODEL_NAME[i] + ".bin"))));
 		}
-
 		File modelFile = new File(modelDir, "en-sent.bin");
 		InputStream modelStream = new FileInputStream(modelFile);
 		SentenceModel model = new SentenceModel(modelStream);
@@ -140,41 +63,40 @@ public class NameFilterTest extends TamingTextTestJ4 {
 		PositionIncrementAttribute pta;
 		OffsetAttribute oa;
 		int pass = 0;
-		StringBuffer sbResp = new StringBuffer();
+		StringBuffer sbResp = new StringBuffer();		
 		while (pass < 2) { // test reuse.
 			int pos = 0;
 			int lastStart = 0;
 			int lastEnd = 0;
+			boolean found=false;			
+			String entityName="";
 			while (nf.incrementToken()) {
 				cta = (CharTermAttribute) nf.getAttribute(CharTermAttribute.class);
 				pta = (PositionIncrementAttribute) nf.getAttribute(PositionIncrementAttribute.class);
-				oa = (OffsetAttribute) nf.getAttribute(OffsetAttribute.class);
-
-				System.err.println("'" + cta.toString() + "'");
-				sbResp.append("'" + cta.toString() + "'");
-				sbResp.append("\n");
-				/*
-				 * System.err.println(pta.toString());
-				 * System.err.println(oa.toString()); System.err.println(
-				 * "--- pass: " + pass);
-				 * 
-				 * TestCase.assertEquals(tokenStrings[pos], cta.toString());
-				 * TestCase.assertEquals(positionIncrements[pos],
-				 * pta.getPositionIncrement());
-				 * 
-				 * if (pta.getPositionIncrement() == 0) {
-				 * TestCase.assertEquals(lastStart, oa.startOffset());
-				 * TestCase.assertEquals(lastEnd, oa.endOffset()); }
-				 * 
-				 * if (!cta.toString().startsWith("NE_")) {
-				 * TestCase.assertEquals(input.substring(oa.startOffset(),
-				 * oa.endOffset()), cta.toString()); }
-				 * 
-				 * lastStart = oa.startOffset(); lastEnd = oa.endOffset();
-				 */
+				oa = (OffsetAttribute) nf.getAttribute(OffsetAttribute.class);				
+				if(cta.toString().startsWith("NE") && !found){
+					found=true;	
+					entityName=cta.toString();
+					sbResp.append("<"+entityName.substring(3)+">");
+				}if(found && pta.getPositionIncrement()==0){					
+					sbResp.append(cta.toString()+" ");
+				}
+				if(found && !cta.toString().startsWith("NE") && pta.getPositionIncrement()==1){
+					found=false;					
+					sbResp.append("</"+entityName.substring(3)+"> ");
+				}
+				else if(!found){
+					sbResp.append(cta.toString()+" ");
+				}
+				lastStart = oa.startOffset();
+				lastEnd = oa.endOffset();
 				pos++;
 			}
 			// if (pass == 1) nf.dumpState();
+			if(found){
+				found=false;			
+				sbResp.append("</"+entityName.substring(3)+">");
+			}
 			nf.end();
 			in.close();
 			in = new StringReader(data.getQueryData());
@@ -185,10 +107,18 @@ public class NameFilterTest extends TamingTextTestJ4 {
 		return sbResp.toString();
 	}
 
+	
+	
 	public static void main(String[] args) throws IOException {
+		final String input = "The quick brown fox jumped over William Taft the President. "
+				+ "There once was a man from New York City who had to catch the bus at 10:30 "
+				+ "in the morning of December 21, 1992 ";
+
 		QueryData data = new QueryData();
 		data.setEntity("person");
 		data.setQueryData(input);
-		testNameFilter(data);
+		String testNameFilterTest = testNameFilter(data);
+		List<String> testList = new ArrayList<>();
+
 	}
 }
