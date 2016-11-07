@@ -23,6 +23,8 @@ package com.tavant.trainer.service;
 import junit.framework.Assert;
 import org.junit.BeforeClass;
 
+import com.tavant.trainer.utils.DataUtils;
+
 import java.io.File;
 
 /**
@@ -32,12 +34,21 @@ import java.io.File;
 public class TamingTextTestJ4 extends Assert {
   @BeforeClass
   public static void setUp() {
-    File models = new File("opennlp-models");
+	  
+	  DataUtils.modelDir();
+    //File models = new File("opennlp-models");
+    File models = new File(DataUtils.modelDir());
+    
+    
     assertTrue(models.exists());
-    File wordnet = new File("WordNet-3.0");
+    //File wordnet = new File("WordNet-3.0");
+    
+    File wordnet = new File(DataUtils.wordnetDir());
+    
+    
     assertTrue(wordnet.exists());
-    System.setProperty("model.dir", "opennlp-models");
-    System.setProperty("wordnet.dir", "WordNet-3.0");
+    System.setProperty("model.dir", models.getAbsolutePath());
+    System.setProperty("wordnet.dir", wordnet.getAbsolutePath());
   }
 
   public static File getWordNetDir(){

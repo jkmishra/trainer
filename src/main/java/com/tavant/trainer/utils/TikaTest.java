@@ -65,35 +65,30 @@ public class TikaTest extends TamingTextTestJ4 {
 
 	@Test
 	public void testTika() throws Exception {
-		// <start id="tika"/>
+	
 		SolrServer solr = new CommonsHttpSolrServer(new URL("http://localhost:" + 8983 + "/solr"));// <co
 																									// id="co.solrj.server"/
-		InputStream input = new FileInputStream(new File("src/test/resources/Tavant Leave Policy.pdf"));// <co
-																										// id="tika.is"/>
+		
+		InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("tavant_docs/Tavant Leave Policy.pdf");// <co
+		
+		
 		ContentHandler textHandler = new BodyContentHandler();// <co
-																// id="tika.handler"/>
-		Metadata metadata = new Metadata();// <co id="tika.metadata"/>
-		Parser parser = new AutoDetectParser();// <co id="tika.parser"/>
+																
+		Metadata metadata = new Metadata();// 
+		Parser parser = new AutoDetectParser();// 
 		ParseContext context = new ParseContext();
-		parser.parse(input, textHandler, metadata, context);// <co
-															// id="tika.parse"/>
-		System.out.println("Title: " + metadata.get(Metadata.TITLE));// <co
-																		// id="tika.title"/>
+		parser.parse(input, textHandler, metadata, context);
+		System.out.println("Title: " + metadata.get(Metadata.TITLE));// 
+																		
 		System.out.println("Body: " + textHandler.toString());
 
 		File modelDir = getModelDir();
 
-		// <start id="openSentDetect"/>
-		// ... Setup the models
 		File modelFile = new File(modelDir, "en-sent.bin");
 		InputStream modelStream = new FileInputStream(modelFile);
 		SentenceModel model = new SentenceModel(modelStream);
 		SentenceDetector detector = // <co id="openSentDetect.co.detect"/>
 				new SentenceDetectorME(model);
-		/*
-		 * String testString = "This is a sentence. It has fruits, vegetables,"
-		 * + " etc. but does not have meat. Mr. Smith went to Washington.";
-		 */
 		String[] result = detector.sentDetect(textHandler.toString()); // <co
 
 		File posModelFile = new File( // <co id="opennlpPOS.co.tagger"/>
@@ -102,15 +97,6 @@ public class TikaTest extends TamingTextTestJ4 {
 		POSModel model1 = new POSModel(posModelStream);
 
 		POSTaggerME tagger = new POSTaggerME(model1);
-
-		/*
-		 * FileInputStream chunkerStream1 = new FileInputStream(new
-		 * File(modelDir, "en-parser-chunking.bin"));
-		 * 
-		 * ParserModel model1 = new ParserModel(chunkerStream1); Parse
-		 * topParses[] = ParserTool.parseLine("hi this",
-		 * (opennlp.tools.parser.Parser) new ParserModel(chunkerStream1), 1);
-		 */
 
 		for (int i = 0; i < result.length; i++) {
 			boolean isProcessDocument = false;
@@ -169,19 +155,8 @@ public class TikaTest extends TamingTextTestJ4 {
 
 		SolrInputDocument doc = new SolrInputDocument();
 		doc.addField("docid", (int) (Math.random() * (1000000 - 1)) + 1);// <co
-																			// id="co.solrj.unique"/>
-		// doc.addField("mimeType", "text/plain");
-		// doc.addField("title", "Tortoise beats Hare! Hare wants rematch.",
-		// 5);//<co id="co.solrj.title"/>
-		Date now2 = new Date();
 		doc.addField("body", docString);
 		doc.addField("body", "\r\n Please Refer this doument:  Tavant Leave Policy.pdf");
-		// doc.addField("date",
-		// DateUtil.getThreadLocalDateFormat().format(now));//<co
-		// id="co.solrj.date"/>
-		// doc.addField("body", "Travel reimbursement cost is $60.");
-		// doc.addField("categories_t", "Fairy Tale, Sports");//<co
-		// id="co.solrj.dynamic.field"/>
 		solr.add(doc);// <co id="co.solrj.add"/>
 		solr.commit();// <co id="co.solrj.commit"/>
 	}

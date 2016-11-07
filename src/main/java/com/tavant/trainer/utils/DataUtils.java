@@ -39,6 +39,10 @@ public class DataUtils {
 	public static String modelDir() {
 		return Config.getProperty("ModelDirectory");
 	}
+	
+	public static String wordnetDir() {
+		return Config.getProperty("WordnetDirectory");
+	}
 
 	public static String appendDataInFile(Data data) {
 		String resp = "";

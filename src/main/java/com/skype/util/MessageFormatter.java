@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 
 public class MessageFormatter {
 	
+	static String strAppURL = "https://3fc3409c.ngrok.io";
+	
 	public static String getWelcomeMessage(){
 		String welcomeMessage = "Hello, My name is Nancy, what is your name?";
 		return welcomeMessage;
@@ -33,10 +35,77 @@ public class MessageFormatter {
         return matcher.replaceAll("");
     }
     
+    /**
+	 * Generate Automate response and hook to NLP
+	 * @param text
+	 * @return
+	 */
+	public static String getAutomatedResponse(String text) {
+
+		
+		if (text.equals("Welcome")) {
+			return ChatConstants.JSON_DOMAINS;
+		}
+		
+		if (text.equals("Greetings")) {
+			return getGreetingJSON();
+		}
+		
+		if (text.equals("Manufacturing")) {
+			return ChatConstants.JSON_AUTOMOTIVE;
+		}
+		
+		if (text.equals("Manufacturing")) {
+			return ChatConstants.JSON_AUTOMOTIVE;
+		}
+		if (text.equals("Articulated Boom Lifts")){
+			return ChatConstants.JSON_AUTOMOTIVE_AERIAL_ARCTICULATED;
+		}
+		if (text.equals("Wait, Let me find HR related topics for you")) {
+			return ChatConstants.JSONHR;
+		}
+		
+		return getJSONForNoAnswer();
+
+	}
+    
     public static String buildMessage(){
     	String message =null;
     	
     	return message;
     }
+    
+    public static String randomizeGreet(){
+    	
+    	
+    	
+    	return "";
+    }
+    
+    public static void setAppURL(String strURL){
+    	strAppURL = "https://034782e8.ngrok.io/";
+    	System.out.println(strAppURL);
+    }
 	
+    public static String getJSONForNoAnswer(){
+    	
+    	StringBuffer jsonGreet= new StringBuffer();
+    	
+    	jsonGreet.append("{\"type\": \"message/text\",\"text\": \"");
+    	jsonGreet.append(new InteractiveMessageUtil().anyItemForNo()+"\"}");
+    	return jsonGreet.toString();
+    }
+    
+    public static String getGreetingJSON(){
+    	
+    	StringBuffer jsonGreet= new StringBuffer();
+    	
+    	jsonGreet.append("{\"type\": \"message/text\",\"text\": \"");
+    	jsonGreet.append(new InteractiveMessageUtil().anyItemToGreet()+"\"}");
+    	return jsonGreet.toString();
+    }
+    
+    
+	
+
 }
